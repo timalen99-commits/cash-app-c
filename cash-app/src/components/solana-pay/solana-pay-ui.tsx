@@ -4,7 +4,18 @@ import { View, StyleSheet, Modal, Text } from "react-native";
 import { Button, TextInput } from "react-native-paper";
 import { AppModal } from "../ui/app-modal";
 import BigNumber from "bignumber.js";
-import { encodeURL } from "@solana/pay";
+// Local minimal implementation of Solana Pay encodeURL to avoid heavy @solana/pay peer deps on web
+function encodeURL({ recipient, amount, memo }: { recipient: any; amount?: any; memo?: string }) {
+  const params = new URLSearchParams();
+  if (amount != null) params.set("amount", String(amount));
+  if (memo) params.set("memo", memo);
+  const recipientStr =
+    typeof recipient?.toBase58 === "function"
+      ? recipient.toBase58()
+      : String(recipient);
+  const url = `solana:${recipientStr}?${params.toString()}`;
+  return { toString: () => url };
+}
 import QRCode from "react-native-qrcode-svg";
 
 export function SolanaPayButton({ address }: { address: PublicKey }) {
