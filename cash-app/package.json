@@ -7,6 +7,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
+    "build:web": "npm --prefix agent run build && npx expo export --platform web",
+    "serve:web": "npm run build:web && node web-server.mjs",
     "build": "npx eas build --profile development --platform android",
     "build:local": "npx eas build --profile development --platform android --local",
     "test": "echo \"No tests specified\" && exit 0"
