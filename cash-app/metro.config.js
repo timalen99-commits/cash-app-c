@@ -7,4 +7,7 @@ const config = getDefaultConfig(__dirname);
 // Add polyfill resolvers
 config.resolver.extraNodeModules.crypto = require.resolve('expo-crypto');
 
+// Enable package exports resolution (needed for subpath exports on web)
+config.resolver.unstable_enablePackageExports = true;
+
 module.exports = config;

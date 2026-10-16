@@ -1,6 +1,6 @@
 import { getRandomValues as expoCryptoGetRandomValues } from "expo-crypto";
 import { Buffer } from "buffer";
-import "react-native-get-random-values";
+// react-native-get-random-values is only needed on native; web has crypto already
 global.Buffer = Buffer;
 
 // getRandomValues polyfill

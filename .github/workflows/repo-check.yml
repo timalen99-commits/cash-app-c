@@ -1,0 +1,51 @@
+name: Repository checks
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: repo-check-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Backend, TypeScript, and Expo web build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+
+      - name: Set up Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: yarn
+          cache-dependency-path: cash-app/yarn.lock
+
+      - name: Enable Yarn
+        run: corepack enable
+
+      - name: Install app dependencies
+        working-directory: cash-app
+        run: yarn install --frozen-lockfile --ignore-scripts
+
+      - name: Run branch checks
+        run: node scripts/repo-check.mjs
+
+      - name: Upload check report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: repo-check-report-${{ github.run_id }}
+          path: artifacts/repo-check.json
+          if-no-files-found: warn
