@@ -4,11 +4,11 @@ import { useAuthorization } from "../../utils/useAuthorization";
 import InitAccount from "./init-ui";
 export function InitAccountFeature() {
   const { selectedAccount } = useAuthorization();
-  const user = selectedAccount.publicKey;
 
   if (!selectedAccount) {
     return null;
   }
+  const user = selectedAccount.publicKey;
   const theme = useTheme();
 
   return (

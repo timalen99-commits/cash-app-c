@@ -2,7 +2,7 @@ import { Button, Text } from "react-native-paper";
 import { alertAndLog } from "../../utils/alertAndLog";
 import { TextInput, View } from "react-native";
 import { Connection, PublicKey, Transaction } from "@solana/web3.js";
-import { getDomainKeySync } from "@bonfida/spl-name-service";
+import { getSnsDomainKeySync } from "@bonfida/spl-name-service";
 import {
   transact,
   Web3MobileWallet,
@@ -32,7 +32,7 @@ export function AddFriend({ address }: { address: PublicKey }) {
             connection.getLatestBlockhash(),
           ]);
 
-          const { pubkey } = getDomainKeySync(userName);
+          const { pubkey } = getSnsDomainKeySync(userName);
           // Generate the increment ix from the Anchor program
           const addFriendIX = await program.methods
             .addFriend(pubkey)

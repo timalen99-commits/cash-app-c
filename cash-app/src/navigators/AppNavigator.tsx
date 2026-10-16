@@ -33,6 +33,7 @@ import InputScreen from "../screens/InputScreen";
 
 export type RootStackParamList = {
   Home: undefined;
+  HomeStack: undefined;
   Settings: undefined;
   Receive: { inputValue: string };
   Send: { inputValue: string };
@@ -46,7 +47,7 @@ declare global {
 }
 
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const AppStack = () => {
   return (

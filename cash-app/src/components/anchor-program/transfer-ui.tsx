@@ -13,7 +13,7 @@ import { alertAndLog } from "../../utils/alertAndLog";
 import { Program } from "@coral-xyz/anchor";
 import { TextInput } from "react-native-paper";
 import * as anchor from "@coral-xyz/anchor";
-import { getDomainKeySync } from "@bonfida/spl-name-service";
+import { getSnsDomainKeySync } from "@bonfida/spl-name-service";
 
 type signCashApp = Readonly<{ user: PublicKey }>;
 
@@ -38,7 +38,7 @@ export default function DepositFunds({ user }: signCashApp) {
             connection.getLatestBlockhash(),
           ]);
 
-          const { pubkey } = getDomainKeySync(userName);
+          const { pubkey } = getSnsDomainKeySync(userName);
 
           // Generate the increment ix from the Anchor program
           const incrementInstruction = await program.methods

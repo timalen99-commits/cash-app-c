@@ -5,11 +5,11 @@ import DepositFunds from "./deposit-ui";
 
 export function DepositFundsFeature() {
   const { selectedAccount } = useAuthorization();
-  const user = selectedAccount.publicKey;
 
   if (!selectedAccount) {
     return null;
   }
+  const user = selectedAccount.publicKey;
   const theme = useTheme();
 
   return (

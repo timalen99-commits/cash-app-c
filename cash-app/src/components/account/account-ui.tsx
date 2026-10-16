@@ -43,7 +43,7 @@ import { UseCashAppProgram } from "../../utils/useCashAppProgram";
 import { alertAndLog } from "../../utils/alertAndLog";
 import { InitAccountFeature } from "../anchor-program/int-feature";
 import { publicKey } from "@coral-xyz/anchor/dist/cjs/utils";
-import { getDomainKeySync } from "@bonfida/spl-name-service";
+import { getSnsDomainKeySync } from "@bonfida/spl-name-service";
 
 function lamportsToSol(balance: number) {
   return Math.round((balance / LAMPORTS_PER_SOL) * 100000) / 100000;
@@ -100,7 +100,7 @@ export function AccountButtonGroup({ address }: { address: PublicKey }) {
             connection.getLatestBlockhash(),
           ]);
 
-          const { pubkey } = getDomainKeySync(userName);
+          const { pubkey } = getSnsDomainKeySync(userName);
           // Generate the increment ix from the Anchor program
           const incrementInstruction = await program.methods
             .transferFunds(pubkey, newDepositAmount)

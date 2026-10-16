@@ -47,7 +47,10 @@ export function SignInButton() {
         return;
       }
       setSignInInProgress(true);
-      await signIn();
+      await signIn({
+        domain: "cash-app.local",
+        statement: "Sign in to Cash App",
+      });
     } catch (err: any) {
       alertAndLog(
         "Error during sign in",

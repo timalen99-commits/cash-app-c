@@ -19,7 +19,7 @@ import {
 import { RootStackParamList } from "../navigators/AppNavigator";
 import { RouteProp } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
-// import { getDomainKeySync, NameRegistryState } from "@bonfida/spl-name-service";
+// import { getSnsDomainKeySync, NameRegistryState } from "@bonfida/spl-name-service";
 import * as anchor from "@coral-xyz/anchor";
 import { Connection, PublicKey, Transaction } from "@solana/web3.js";
 import { useAuthorization } from "../utils/useAuthorization";
@@ -30,7 +30,7 @@ import {
   transact,
   Web3MobileWallet,
 } from "@solana-mobile/mobile-wallet-adapter-protocol-web3js";
-import { getDomainKeySync } from "@bonfida/spl-name-service";
+import { getSnsDomainKeySync } from "@bonfida/spl-name-service";
 
 type RequestScreenRouteProp = RouteProp<RootStackParamList, "Receive">;
 type RequestScreenNavigationProp = NativeStackNavigationProp<
@@ -56,7 +56,7 @@ const RequestScreen: React.FC<Props> = ({ route, navigation }) => {
     () => new Connection("https://api.devnet.solana.com")
   );
   const { authorizeSession, selectedAccount } = useAuthorization();
-  const user = selectedAccount.publicKey;
+  const user = selectedAccount?.publicKey ?? PublicKey.default;
   const { cashAppProgram, cashAppPDA } = UseCashAppProgram(user);
 
   const transferFunds = useCallback(
@@ -68,7 +68,7 @@ const RequestScreen: React.FC<Props> = ({ route, navigation }) => {
             connection.getLatestBlockhash(),
           ]);
 
-          const { pubkey } = getDomainKeySync(userName);
+          const { pubkey } = getSnsDomainKeySync(userName);
 
           // Generate the increment ix from the Anchor program
           const transferInstruction = await program.methods

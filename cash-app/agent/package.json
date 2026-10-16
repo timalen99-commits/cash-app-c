@@ -1,0 +1,18 @@
+{
+  "name": "cash-app-agent",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "npm run build && node --test dist/test/*.test.js",
+    "test:live": "npm run build && node --test dist/test/live.test.js"
+  },
+  "dependencies": {
+    "@e2b/code-interpreter": "^2.9.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "typescript": "^5.7.2"
+  }
+}

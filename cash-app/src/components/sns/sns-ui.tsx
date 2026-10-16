@@ -1,7 +1,7 @@
 import {
   devnet,
-  getAllDomains,
-  getDomainKeySync,
+  getAllSnsDomains,
+  getSnsDomainKeySync,
   getNameAccountKeySync,
   NameRegistryState,
   reverseLookup,
@@ -46,15 +46,13 @@ export function SnsButton({ address }: { address: PublicKey }) {
 
         // const tx = new Transaction();
 
-        const [, ix] = await devnet.bindings.registerDomainName(
-          connection,
-          "bri", // The name of the domain you want to register
-          1_000,
-          address!, // PublicKey of fee payer
-          getAssociatedTokenAddressSync(NATIVE_MINT, address!, true), // import from @solana/spl-token
+        const ix = await devnet.bindings.registerDomain(
+          name.trim(),
+          space,
+          address,
+          getAssociatedTokenAddressSync(NATIVE_MINT, address, true),
           NATIVE_MINT
         );
-
         // tx.add(...ix);
         // tx.recentBlockhash = latestBlockhash.blockhash;
         // tx.feePayer = user!;
@@ -62,15 +60,6 @@ export function SnsButton({ address }: { address: PublicKey }) {
           1_000 + NameRegistryState.HEADER_LEN
         );
         // Construct a transaction.
-        const instructions: TransactionInstruction =
-          await devnet.bindings.createNameRegistry(
-            connection,
-            name,
-            space,
-            address,
-            address,
-            lamports
-          );
 
         const snsTransaction = new Transaction({
           ...latestBlockhash,
@@ -166,7 +155,7 @@ export function SnsButton({ address }: { address: PublicKey }) {
 //     setDomain("Loading...");
 //     try {
 //       console.log("Fetching domain");
-//       const { pubkey } = getDomainKeySync("bonfida");
+//       const { pubkey } = getSnsDomainKeySync("bonfida");
 //       console.log("Pubkey:", pubkey.toString());
 
 //       const domainName = await reverseLookup(connection, pubkey);
@@ -205,11 +194,11 @@ export function DomainNameButton({ address }: { address: PublicKey }) {
   useEffect(() => {
     const fetchDomainName = async () => {
       try {
-        const { pubkey } = getDomainKeySync("bonfida");
+        const { pubkey } = getSnsDomainKeySync("bonfida");
         const domain = await reverseLookup(connection, pubkey);
         setDomain(domain);
       } catch (error) {
-        console.error("Error:", error.type);
+        console.error("Error:", error instanceof Error ? error.message : error);
         setDomain("Loading...");
       }
     };
