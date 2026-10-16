@@ -6,6 +6,7 @@ import { Section } from "../Section";
 import { useAuthorization } from "../utils/useAuthorization";
 import { AccountDetailFeature } from "../components/account/account-detail-feature";
 import { SignInFeature } from "../components/sign-in/sign-in-feature";
+import { AgentConsole } from "../components/agent/AgentConsole";
 
 export function HomeScreen() {
   const { selectedAccount } = useAuthorization();
@@ -19,7 +20,10 @@ export function HomeScreen() {
         Solana Mobile Expo Template
       </Text>
       {selectedAccount ? (
-        <AccountDetailFeature />
+        <>
+          <AccountDetailFeature />
+          <AgentConsole />
+        </>
       ) : (
         <>
           <Section
@@ -35,6 +39,7 @@ export function HomeScreen() {
             description="Connect or Sign in with Solana (SIWS) to link your wallet account."
           />
           <SignInFeature />
+          <AgentConsole />
         </>
       )}
     </View>
@@ -45,6 +50,7 @@ const styles = StyleSheet.create({
   screenContainer: {
     padding: 16,
     flex: 1,
+    backgroundColor: "#0d1117",
   },
   buttonGroup: {
     flexDirection: "column",
